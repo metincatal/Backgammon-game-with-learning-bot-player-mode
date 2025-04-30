@@ -1,0 +1,487 @@
+.board {
+    display: flex;
+    flex-direction: row;
+    width: 800px;
+    height: 600px;
+    background-color: #DEB887;
+    border: 15px solid #8B4513;
+    position: relative;
+}
+
+.board-main {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 0;
+}
+
+.board-half {
+    display: flex;
+    height: 50%;
+    position: relative;
+    background-color: #DEB887;
+    overflow: hidden;
+}
+
+.board-quadrant {
+    display: flex;
+    width: 50%;
+    height: 100%;
+    justify-content: space-around;
+    padding: 0 6px;
+    position: relative;
+    border-right: 8px solid #8B4513;
+}
+
+.board-quadrant:last-child {
+    border-right: none;
+}
+
+.board-bar {
+    width: 60px;
+    height: 100%;
+    background-color: #DEB887;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    border-left: 8px solid #8B4513;
+    overflow: hidden;
+}
+
+.bar-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 45%;
+    overflow: hidden;
+    padding: 10px 0;
+    position: relative;
+    cursor: pointer;
+}
+
+/* Toplama alanları için stil */
+.bar-section::before {
+    content: '';
+    position: absolute;
+    width: 40px;
+    height: 80%;
+    background-color: rgba(139, 69, 19, 0.2);
+    border-radius: 8px;
+    z-index: 1;
+}
+
+.bar-section.white::before {
+    top: 10px;
+}
+
+.bar-section.black::before {
+    bottom: 10px;
+}
+
+.bar-checkers {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 2;
+}
+
+/* Bar bölgesindeki pulların dizilimi */
+.bar-checkers .checker {
+    margin-top: -20px;
+}
+
+.bar-checkers .checker:first-child {
+    margin-top: 0;
+}
+
+/* Toplama alanları için ek stil */
+.collection-area {
+    width: 40px;
+    height: 120px;
+    background-color: rgba(139, 69, 19, 0.1);
+    border-radius: 8px;
+    margin: 5px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    z-index: 10;
+}
+
+/* Üzerine gelindiğinde görsel geribildirim */
+.collection-area:hover {
+    background-color: rgba(139, 69, 19, 0.2);
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+}
+
+/* Toplama yapılabilecek durum için daha belirgin stil */
+.collection-area.valid-move {
+    background-color: rgba(50, 205, 50, 0.3) !important;
+    box-shadow: 0 0 12px rgba(50, 205, 50, 0.5);
+    animation: pulse 1.5s infinite;
+    cursor: pointer;
+}
+
+/* Toplamada kullanılan pulların stili */
+.checker.collected {
+    margin-top: -20px;
+    opacity: 0.9;
+    transform: scale(0.8);
+}
+
+.checker.collected:first-child {
+    margin-top: 0;
+}
+
+.middle-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10%;
+    width: 100%;
+    padding: 5px 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(139, 69, 19, 0.1),
+        rgba(139, 69, 19, 0.2),
+        rgba(139, 69, 19, 0.1)
+    );
+}
+
+.roll-button {
+    width: 42px;
+    height: 42px;
+    background: linear-gradient(145deg, #8B4513, #A0522D);
+    color: #FFF;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 1.2;
+    padding: 4px;
+    box-shadow: 
+        inset 0 1px 1px rgba(255,255,255,0.2),
+        inset 0 -1px 1px rgba(0,0,0,0.2),
+        0 2px 4px rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    white-space: pre-wrap;
+    transition: all 0.2s ease;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    letter-spacing: 0.5px;
+}
+
+.roll-button:hover {
+    background: linear-gradient(145deg, #A0522D, #8B4513);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 
+        inset 0 1px 1px rgba(255,255,255,0.2),
+        inset 0 -1px 1px rgba(0,0,0,0.2),
+        0 4px 8px rgba(0,0,0,0.4);
+}
+
+.roll-button:active {
+    background: linear-gradient(145deg, #6B3410, #8B4513);
+    transform: translateY(1px) scale(0.98);
+    box-shadow: 
+        inset 0 2px 4px rgba(0,0,0,0.3),
+        0 1px 2px rgba(0,0,0,0.2);
+}
+
+/* Zar atma alanı */
+.dice-roll-area {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.point {
+    width: calc(100% / 6);
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Üçgen stilleri */
+.point::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+}
+
+/* Üst yarı üçgenleri */
+.board-half.upper .point::before {
+    top: 0;
+    border-left: 28px solid transparent;
+    border-right: 28px solid transparent;
+    border-top: 270px solid #8B4513;
+}
+
+/* Alt yarı üçgenleri */
+.board-half.lower .point::before {
+    bottom: 0;
+    border-left: 28px solid transparent;
+    border-right: 28px solid transparent;
+    border-bottom: 270px solid #8B4513;
+}
+
+/* Üçgen renk alternatifleri - Üst yarı için */
+.board-half.upper .board-quadrant .point:nth-child(odd)::before {
+    border-top-color: #CD853F; /* Açık kahverengi (Peru) */
+}
+
+.board-half.upper .board-quadrant .point:nth-child(even)::before {
+    border-top-color: #8B4513; /* Koyu kahverengi */
+}
+
+/* Alt yarı için renkleri kaydır */
+.board-half.lower .board-quadrant .point:nth-child(even)::before {
+    border-bottom-color: #CD853F; /* Açık kahverengi (Peru) */
+}
+
+.board-half.lower .board-quadrant .point:nth-child(odd)::before {
+    border-bottom-color: #8B4513; /* Koyu kahverengi */
+}
+
+/* Taş stilleri */
+.checker {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    position: relative;
+    z-index: 2;
+    border: 2px solid #333;
+}
+
+.checker.white {
+    background-color: #FFF;
+    box-shadow: 
+        inset 0 0 10px rgba(0,0,0,0.3),
+        0 2px 4px rgba(0,0,0,0.2);
+}
+
+.checker.black {
+    background-color: #000;
+    box-shadow: 
+        inset 0 0 10px rgba(255,255,255,0.3),
+        0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* İlk 7 pul için normal aralık */
+.point .checker:nth-child(-n+7) {
+    margin-top: 0;
+}
+
+/* 7. puldan sonrası için üst üste binme efekti */
+.point .checker:nth-child(n+8) {
+    margin-top: -25px;
+}
+
+/* Bar bölgesi için özel stil */
+.bar-checkers .checker {
+    margin-top: -25px;
+}
+
+.bar-checkers .checker:first-child {
+    margin-top: 0;
+}
+
+/* Taşların dizilimi */
+.board-half.upper .point {
+    justify-content: flex-start;
+    padding-top: 5px;
+}
+
+.board-half.lower .point {
+    justify-content: flex-end;
+    padding-bottom: 5px;
+}
+
+.point .checker:first-child {
+    margin-top: 0;
+}
+
+.bar-checkers {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    overflow: hidden;
+}
+
+.bar-checkers .checker {
+    margin-top: -17px;
+}
+
+.point .checker:first-child {
+    margin-top: 0;
+}
+
+.bar-checkers .checker:first-child {
+    margin-top: 0;
+}
+
+/* Seçilebilir noktalar için stil */
+.point.can-select {
+    cursor: pointer;
+}
+
+.point.can-select:hover::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.2);
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Seçili nokta için stil */
+.point.selected::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 215, 0, 0.3);
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Geçerli hamle noktaları için stil */
+.point.valid-move::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 255, 0, 0.35);
+    border: 2px solid rgba(0, 255, 0, 0.5);
+    border-radius: 4px;
+    z-index: 1;
+    pointer-events: none;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0.6;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.6;
+    }
+}
+
+/* Bar seçimi için stil */
+.bar-section {
+    cursor: pointer;
+}
+
+.bar-section.selected::before {
+    background-color: rgba(255, 215, 0, 0.3);
+}
+
+.bar-section:hover::before {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Uyarı mesajı için stil */
+.warning-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 0, 0, 0.9);
+    color: white;
+    padding: 15px 25px;
+    border-radius: 8px;
+    font-weight: bold;
+    z-index: 1000;
+    animation: fadeInOut 2s ease-in-out;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes fadeInOut {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+    10% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    90% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+}
+
+/* Düzenleme: Tüm pullar için üst üste binme efekti */
+.point .checker {
+    margin-top: -15px; /* Tüm pullar için biraz üst üste binme */
+}
+
+.point .checker:first-child {
+    margin-top: 0; /* İlk pul için margin yok */
+}
+
+/* Pul sayısı arttıkça daha sıkışık görünüm */
+.point .checker:nth-child(n+5) {
+    margin-top: -20px;
+}
+
+.point .checker:nth-child(n+8) {
+    margin-top: -25px;
+}
+
+.point .checker:nth-child(n+11) {
+    margin-top: -28px;
+}
+
+.point .checker:nth-child(n+14) {
+    margin-top: -30px;
+}
+
+.bot-playing {
+    color: #fff;
+    background-color: rgba(139, 69, 19, 0.7);
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-align: center;
+    animation: pulse 1.5s infinite;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+} 

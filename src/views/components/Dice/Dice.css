@@ -1,0 +1,161 @@
+.dice-container {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    z-index: 100;
+    min-width: 120px;
+}
+
+.dice-container.white {
+    top: 50%;
+    right: 150px;
+    transform: translateY(-50%);
+}
+
+.dice-container.black {
+    top: 50%;
+    left: 150px;
+    transform: translateY(-50%);
+}
+
+.dice-area {
+    display: flex;
+    gap: 20px;
+    min-height: 60px;
+    padding: 15px;
+    background-color: rgba(139, 69, 19, 0.1);
+    border-radius: 12px;
+    position: relative;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.dice-face {
+    width: 45px;
+    height: 45px;
+    background-color: white;
+    border-radius: 8px;
+    padding: 5px;
+    display: grid;
+    grid-template-areas: 
+        "tl tc tr"
+        "ml mc mr"
+        "bl bc br";
+    box-shadow: 
+        inset 0 0 10px rgba(0,0,0,0.2),
+        2px 2px 5px rgba(0,0,0,0.3);
+    animation: diceRoll 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: all 0.3s ease;
+}
+
+@keyframes diceRoll {
+    0% {
+        transform: translateY(-200px) translateX(var(--random-x)) rotate(0deg);
+        opacity: 0;
+    }
+    30% {
+        transform: translateY(20px) translateX(calc(var(--random-x) * 0.6)) rotate(300deg);
+        opacity: 0.5;
+    }
+    50% {
+        transform: translateY(-40px) translateX(calc(var(--random-x) * 0.3)) rotate(480deg);
+        opacity: 0.7;
+    }
+    75% {
+        transform: translateY(10px) translateX(calc(var(--random-x) * 0.1)) rotate(600deg);
+        opacity: 0.9;
+    }
+    90% {
+        transform: translateY(-5px) translateX(0) rotate(690deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(0) translateX(0) rotate(720deg);
+        opacity: 1;
+    }
+}
+
+.dice-dot {
+    width: 9px;
+    height: 9px;
+    background-color: black;
+    border-radius: 50%;
+}
+
+.dice-dot.top-left { grid-area: tl; }
+.dice-dot.top-right { grid-area: tr; }
+.dice-dot.middle-left { grid-area: ml; }
+.dice-dot.center { grid-area: mc; }
+.dice-dot.middle-right { grid-area: mr; }
+.dice-dot.bottom-left { grid-area: bl; }
+.dice-dot.bottom-right { grid-area: br; }
+
+.dice-roll-area {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+}
+
+/* Çift zar için özel stiller */
+.dice-face.active-dice {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 
+        inset 0 0 10px rgba(0,0,0,0.2),
+        0 0 10px rgba(0,255,0,0.3),
+        2px 2px 5px rgba(0,0,0,0.3);
+    border: 1px solid rgba(0,255,0,0.5);
+}
+
+.dice-face.inactive-dice {
+    opacity: 0.6;
+    transform: scale(0.85);
+    filter: grayscale(50%);
+    box-shadow: 
+        inset 0 0 10px rgba(0,0,0,0.2),
+        2px 2px 5px rgba(0,0,0,0.2);
+}
+
+.dice-face.hidden-dice {
+    display: none;
+}
+
+/* Kalan zar bilgisi */
+.dice-info {
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(139, 69, 19, 0.8);
+    color: white;
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 12px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.empty-dice-placeholder {
+    width: 100%;
+    text-align: center;
+    color: #8B4513;
+    font-size: 14px;
+    padding: 10px;
+    font-weight: bold;
+    min-height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(222, 184, 135, 0.3);
+    border-radius: 8px;
+    box-shadow: inset 0 0 4px rgba(139, 69, 19, 0.3);
+    animation: pulse 2s infinite;
+} 
